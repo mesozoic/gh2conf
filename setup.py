@@ -10,7 +10,7 @@ setup(
     author='Alex Levy',
     author_email='mesozoic@polynode.com',
     url='https://github.com/mesozoic/gh2conf',
-    download_url='https://github.com/mesozoic/gh2conf/tarball/v{0}'.format(version),
+    download_url='https://github.com/mesozoic/gh2conf/archive/v{0}.tar.gz'.format(version),
     keywords=[],
     classifiers=[
         'Development Status :: 4 - Beta',
