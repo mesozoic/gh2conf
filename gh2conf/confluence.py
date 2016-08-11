@@ -1,12 +1,18 @@
 # -*- coding: utf-8 -*-
 
+"""
+Confluence API helpers.
+"""
+
 from __future__ import print_function
+from __future__ import unicode_literals
 
 from getpass import getpass
 from getpass import getuser
 import attr
 import json
 import requests
+import six
 import yaml
 
 
@@ -16,7 +22,7 @@ class ConfluenceClient(object):
     Simplistic wrapper around the Confluence REST API.
     """
 
-    url = attr.ib(validator=attr.validators.instance_of(str))
+    url = attr.ib(validator=attr.validators.instance_of(six.string_types))
     username = attr.ib(default=attr.Factory(getuser))
     password = attr.ib(default=attr.Factory(getpass))
 

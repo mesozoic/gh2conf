@@ -2,6 +2,8 @@
 
 A script for publishing a GitHub wiki repository to Confluence.
 
+Assumes you're using Markdown. Does not support other formats yet.
+
 ## Quickstart
 
 ```

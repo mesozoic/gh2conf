@@ -2,6 +2,7 @@
 
 import attr
 import os
+import six
 import yaml
 
 
@@ -9,9 +10,9 @@ import yaml
 class MigrationTarget(object):
     """Describes a destination for a migrated wiki page."""
 
-    space_key = attr.ib(validator=attr.validators.instance_of(str))
-    title = attr.ib(validator=attr.validators.instance_of((bytes, unicode)))
-    parent_title = attr.ib(default='', validator=attr.validators.instance_of((bytes, unicode)))
+    space_key = attr.ib(validator=attr.validators.instance_of(six.string_types))
+    title = attr.ib(validator=attr.validators.instance_of(six.string_types))
+    parent_title = attr.ib(default='', validator=attr.validators.instance_of(six.string_types))
 
 
 @attr.s
@@ -19,7 +20,7 @@ class MigrationStep(object):
     """Describes a single step for a GitHub-to-Confluence migration."""
 
     migration_target = attr.ib(validator=attr.validators.instance_of(MigrationTarget))
-    filename = attr.ib(validator=attr.validators.instance_of(str))
+    filename = attr.ib(validator=attr.validators.instance_of(six.string_types))
 
 
 @attr.s

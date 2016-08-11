@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
+from __future__ import unicode_literals
 
 import os
 import sys
@@ -58,7 +59,7 @@ def main():
         if step.migration_target.parent_title:
             debug(step.migration_target.parent_title, '-> ', end='')
         debug(step.migration_target.title)
-        with open(step.filename) as source_file:
+        with open(step.filename, 'rb') as source_file:
             content = source_file.read().decode('utf-8')
         copy_content(content, confluence, step.migration_target)
 

@@ -4,6 +4,9 @@
 Utilities for converting from GitHub markdown to Confluence wiki content.
 """
 
+from __future__ import print_function
+from __future__ import unicode_literals
+
 import base64
 import markdown
 import re
@@ -36,8 +39,9 @@ class ConfluenceLink(markdown.inlinepatterns.Pattern):
         link_ri_page.set('ri:content-title', title)
         link_text = match.groupdict().get('linktext')
         if link_text:
+            link_text_b64 = base64.encodestring(link_text.encode('utf-8')).strip()
             link_body = markdown.util.etree.SubElement(link, 'ac:plain-text-link-body')
-            link_body.text = '[base64-cdata[{}]]'.format(base64.encodestring(link_text).strip())
+            link_body.text = '[base64-cdata[{}]]'.format(link_text_b64.decode('ascii'))
         return link
 
 
@@ -107,13 +111,17 @@ def fix_cdata(text):
     expr = r'\[base64-cdata\[([A-Za-z0-9\+\/]+)\]\]'
 
     def repl(match):
-        return '<![CDATA[{}]]>'.format(base64.decodestring(match.groups()[0]))
+        link_text_b64 = match.groups()[0]
+        link_text = base64.decodestring(link_text_b64.encode('ascii'))
+        # We encoded this string as UTF-8 before putting it into base64 (above)
+        return '<![CDATA[{}]]>'.format(link_text.decode('utf-8'))
 
     return re.sub(expr, repl, text)
 
 
 def markdown_to_confluence_with_macro(text):
     text = remove_first_h1(text)
+    text = remove_comments(text)
     return '''\
         <ac:structured-macro ac:name="markdown" ac:schema-version="1">
             <ac:parameter ac:name="atlassian-macro-output-type">INLINE</ac:parameter>
